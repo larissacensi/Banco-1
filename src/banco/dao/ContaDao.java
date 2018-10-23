@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import banco.modelo.Cliente;
-import banco.modelo.Conta;
+import banco.modelo.Livro;
 
-public class ContaDao implements Dao<Conta> {
+public class ContaDao implements Dao<Livro> {
 	
 	private static final String GET_BY_ID = "SELECT * FROM conta NATURAL JOIN cliente WHERE id = ?";
 	private static final String GET_ALL = "SELECT * FROM conta NATURAL JOIN cliente";
@@ -46,9 +46,9 @@ public class ContaDao implements Dao<Conta> {
 	}
 	
 	
-	private Conta getContaFromRS(ResultSet rs) throws SQLException
+	private Livro getContaFromRS(ResultSet rs) throws SQLException
     {
-		Conta conta = new Conta();
+		Livro conta = new Livro();
 			
 		conta.setId( rs.getInt("id") );
 		conta.setAgencia( rs.getInt("agencia") );
@@ -62,12 +62,12 @@ public class ContaDao implements Dao<Conta> {
     }
 	
 	@Override
-	public Conta getByKey(int id) {
+	public Livro getByKey(int id) {
 		Connection conn = DbConnection.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		Conta conta = null;
+		Livro conta = null;
 		
 		try {
 			stmt = conn.prepareStatement(GET_BY_ID);
@@ -87,12 +87,12 @@ public class ContaDao implements Dao<Conta> {
 	}
 
 	@Override
-	public List<Conta> getAll() {
+	public List<Livro> getAll() {
 		Connection conn = DbConnection.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
 		
-		List<Conta> conta = new ArrayList<>();
+		List<Livro> conta = new ArrayList<>();
 		
 		try {
 			stmt = conn.createStatement();
@@ -113,7 +113,7 @@ public class ContaDao implements Dao<Conta> {
 	}
 
 	@Override
-	public void insert(Conta conta) {
+	public void insert(Livro conta) {
 		Connection conn = DbConnection.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -159,7 +159,7 @@ public class ContaDao implements Dao<Conta> {
 	}
 
 	@Override
-	public void update(Conta conta) {
+	public void update(Livro conta) {
 		Connection conn = DbConnection.getConnection();
 		
 		PreparedStatement stmt = null;

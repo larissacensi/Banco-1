@@ -5,103 +5,104 @@ import java.util.Scanner;
 public class InterfaceTexto {
 	private Scanner entrada;
 	private Estado estadoAtual;
-	
-	private static final int OP_CLIENTE = 1;
-	private static final int OP_CONTA = 2;
+
+	private static final int OP_LIVRO = 1;
+	private static final int OP_AUTOR = 2;
 	private static final int OP_SAIR = 0;
-	private static final int OP_ADICIONAR = 1;
+	private static final int OP_NOVO = 1;
 	private static final int OP_EDITAR = 2;
-	private static final int OP_EXCLUIR = 3;
-	private static final int OP_LISTAR = 4;
-	
-	private enum Estado {PRINCIPAL, CLIENTE, CONTA};
-	
+	private static final int OP_APAGAR = 3;
+	private static final int OP_BUSCAR = 4;
+
+	private enum Estado {
+		PRINCIPAL, LIVRO, AUTOR
+	};
+
 	public InterfaceTexto() {
 		entrada = new Scanner(System.in);
 		estadoAtual = Estado.PRINCIPAL;
 	}
-	
+
 	private void imprimeMenu() {
-		System.out.println("Contas Banc√°rias");
+		System.out.println("");
 		System.out.println();
-		
+
 		switch (estadoAtual) {
-		case CLIENTE:
-			imprimeMenuCliente();
+		case LIVRO:
+			imprimeMenuLivros();
 			break;
-		case CONTA:
-			imprimeMenuConta();
+		case AUTOR:
+			imprimeMenuAutores();
 			break;
 		default:
 			imprimeMenuPrincipal();
 		}
 		System.out.println();
 		System.out.println("0 - Sair");
-		
+
 		System.out.println();
-		System.out.print("Escolha uma op√ß√£o: ");	
+		System.out.print("Escolha uma opÁ„o: ");
 	}
-	
+
 	private int leOpcao() {
 		int opcao = entrada.nextInt();
 		entrada.nextLine();
 		return opcao;
 	}
-	
+
 	private void imprimeMenuPrincipal() {
-		System.out.println("1 - Administra√ß√£o de Clientes");
-		System.out.println("2 - Administra√ß√£o de Contas");
+		System.out.println("1 - AdministraÁ„o de Livros");
+		System.out.println("2 - AdministraÁ„o de Autores");
 	}
-	
-	private void imprimeMenuCliente() {
-		System.out.println("1 - Adicionar cliente");
-		System.out.println("2 - Editar cliente");
-		System.out.println("3 - Excluir cliente");
-		System.out.println("4 - Listar clientes");
+
+	private void imprimeMenuLivros() {
+		System.out.println("1 - Adicionar Livro");
+		System.out.println("2 - Editar Livro");
+		System.out.println("3 - Apagar Livro");
+		System.out.println("4 - Listar Livro");
 	}
-	
-	private void imprimeMenuConta() {
-		System.out.println("1 - Adicionar conta");
-		System.out.println("2 - Editar conta");
-		System.out.println("3 - Excluir conta");
-		System.out.println("4 - Listar contas");
+
+	private void imprimeMenuAutores() {
+		System.out.println("1 - Adicionar Autor");
+		System.out.println("2 - Editar Autor");
+		System.out.println("3 - Apagar Autor");
+		System.out.println("4 - Listar Autor");
 	}
-		
+
 	public void executa() {
 		InterfaceModeloTexto subMenu;
-		
+
 		imprimeMenu();
 		int opcao = leOpcao();
-		
+
 		while (opcao != OP_SAIR) {
 			if (estadoAtual == Estado.PRINCIPAL) {
-				estadoAtual = opcao == OP_CLIENTE ? Estado.CLIENTE : Estado.CONTA;
+				estadoAtual = opcao == OP_LIVRO ? Estado.LIVRO : Estado.AUTOR;
 			} else {
-				subMenu = estadoAtual == Estado.CLIENTE ? 
-						new InterfaceClienteTexto() : new InterfaceContaTexto();
-				
+				subMenu = estadoAtual == Estado.LIVRO ? new InterfaceClienteTexto() : new InterfaceContaTexto();
+
 				switch (opcao) {
-				case OP_ADICIONAR:
+				case OP_NOVO:
 					subMenu.adicionar();
 					break;
 				case OP_EDITAR:
 					subMenu.editar();
 					break;
-				case OP_EXCLUIR:
+				case OP_APAGAR:
 					subMenu.excluir();
 					break;
-				case OP_LISTAR:
+				case OP_BUSCAR:
 					subMenu.listarTodos();
 					break;
 				default:
-					System.out.println("Op√ß√£o Inv√°lida. Tente novamente!");
+					System.out.println("OpÁ„o invalida. Tente novamente!");
 				}
 			}
-			
+
 			imprimeMenu();
 			opcao = leOpcao();
 		}
-		
+
 	}
-	
+
 }

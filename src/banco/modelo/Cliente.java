@@ -1,7 +1,7 @@
 package banco.modelo;
 
 
-public class Cliente extends Pessoa implements Imprimivel {
+public class Cliente extends Autor implements Imprimivel {
 	private double rendaMensal;
 
 	public Cliente() { super(); }

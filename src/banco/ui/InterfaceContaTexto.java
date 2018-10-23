@@ -5,7 +5,7 @@ import java.util.List;
 import banco.dao.ClienteDao;
 import banco.dao.ContaDao;
 import banco.modelo.Cliente;
-import banco.modelo.Conta;
+import banco.modelo.Livro;
 
 public class InterfaceContaTexto extends InterfaceModeloTexto {
 
@@ -23,11 +23,11 @@ public class InterfaceContaTexto extends InterfaceModeloTexto {
 		System.out.println("Adicionar conta");
 		System.out.println();
 		
-		Conta novaConta = obtemDadosConta(null);	
+		Livro novaConta = obtemDadosConta(null);	
 		dao.insert(novaConta);
 	}
 
-	private Conta obtemDadosConta(Conta conta) {
+	private Livro obtemDadosConta(Livro conta) {
 		System.out.print("Insira o número da conta: ");
 		int numero = entrada.nextInt();
 		
@@ -42,19 +42,19 @@ public class InterfaceContaTexto extends InterfaceModeloTexto {
 		
 		Cliente cliente = clienteDao.getByKey(idCliente);
 		
-		return new Conta(0, agencia, numero, cliente, saldo);
+		return new Livro(0, agencia, numero, cliente, saldo);
 	}
 
 	@Override
 	public void listarTodos() {
-		List<Conta> contas = dao.getAll();
+		List<Livro> contas = dao.getAll();
 		
 		System.out.println("Lista de contas");
 		System.out.println();
 		
 		System.out.println("id\tAgência\tNúmero\tSaldo\tID do Cliente\tNome do Cliente");
 		
-		for (Conta conta : contas) {
+		for (Livro conta : contas) {
 			imprimeItem(conta);
 		}
 	}
@@ -70,9 +70,9 @@ public class InterfaceContaTexto extends InterfaceModeloTexto {
 		int id = entrada.nextInt();
 		entrada.nextLine();
 		
-		Conta contaAModificar = dao.getByKey(id);
+		Livro contaAModificar = dao.getByKey(id);
 		
-		Conta novaConta = obtemDadosConta(contaAModificar);
+		Livro novaConta = obtemDadosConta(contaAModificar);
 		
 		novaConta.setId(id);
 		
