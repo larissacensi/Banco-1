@@ -1,5 +1,6 @@
 package banco.dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,20 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import banco.modelo.Cliente;
+import banco.modelo.Autor;
 import banco.modelo.Livro;
 
-public class ContaDao implements Dao<Livro> {
+public class LivroDao implements Dao<Livro> {
 	
-	private static final String GET_BY_ID = "SELECT * FROM conta NATURAL JOIN cliente WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM conta NATURAL JOIN cliente";
-	private static final String INSERT = "INSERT INTO conta (agencia, cliente_id, numero, saldo) "
+	private static final String GET_BY_ID = "SELECT * FROM livro NATURAL JOIN autor WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM livro NATURAL JOIN autor";
+	private static final String INSERT = "INSERT INTO livro (titulo, anoPublicado, editora, autor_id) "
 			+ "VALUES (?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE conta SET agencia = ?, cliente_id = ?, numero = ?, "
-			+ "saldo = ? WHERE id = ?";
-	private static final String DELETE = "DELETE FROM conta WHERE id = ?";
+	private static final String UPDATE = "UPDATE livro SET titulo = ?, anoPublicado = ?, editora = ?, "
+			+ "autor_id = ? WHERE id = ?";
+	private static final String DELETE = "DELETE FROM livro WHERE id = ?";
 	
-	public ContaDao() {
+	public LivroDao() {
 		try {
 			createTable();
 		} catch (SQLException e) {
@@ -30,13 +31,13 @@ public class ContaDao implements Dao<Livro> {
 	}
 	
 	private void createTable() throws SQLException {
-	    final String sqlCreate = "CREATE TABLE IF NOT EXISTS conta"
+	    final String sqlCreate = "CREATE TABLE IF NOT EXISTS livro"
 	            + "  (id           INTEGER,"
-	            + "   agencia      INTEGER,"
-	            + "   cliente_id   INTEGER,"
-	            + "   numero	   INTEGER,"
-	            + "   saldo        DOUBLE,"
-	            + "   FOREIGN KEY (cliente_id) REFERENCES cliente(id),"
+	            + "   titulo      STRING,"
+	            + "   anoPublicado   INTEGER,"
+	            + "   editora	   STRING,"
+	            + "   autor_id        INTEGER,"
+	            + "   FOREIGN KEY (autor_id) REFERENCES autor(id),"
 	            + "   PRIMARY KEY (id))";
 	    
 	    Connection conn = DbConnection.getConnection();
@@ -46,19 +47,18 @@ public class ContaDao implements Dao<Livro> {
 	}
 	
 	
-	private Livro getContaFromRS(ResultSet rs) throws SQLException
+	private Livro getLivroFromRS(ResultSet rs) throws SQLException
     {
-		Livro conta = new Livro();
+		Livro livro = new Livro();
 			
-		conta.setId( rs.getInt("id") );
-		conta.setAgencia( rs.getInt("agencia") );
-		conta.setNumero( rs.getInt("numero"));
-		conta.setSaldo( rs.getDouble("saldo") );
-		conta.setCliente( new Cliente(rs.getInt("cliente_id"), rs.getString("nome"), 
-				rs.getString("endereco"), rs.getLong("cpf"),  rs.getLong("rg"),
-				rs.getLong("telefone"), rs.getDouble("renda_mensal")) );
+		livro.setId( rs.getInt("id") );
+		livro.setTitulo( rs.getString("titulo") );
+		livro.setAnoPublicado( rs.getInt("Ano publicado"));
+		livro.setEditora( rs.getString("editora") );
+		livro.setAutor( new Autor(rs.getInt("autor_id"), rs.getString("nome"), 
+				rs.getLong("cpf")) );
 	
-		return conta;
+		return livro;
     }
 	
 	@Override
@@ -67,7 +67,7 @@ public class ContaDao implements Dao<Livro> {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		Livro conta = null;
+		Livro livro = null;
 		
 		try {
 			stmt = conn.prepareStatement(GET_BY_ID);
@@ -75,7 +75,7 @@ public class ContaDao implements Dao<Livro> {
 			rs = stmt.executeQuery();
 			
 			if (rs.next()) {
-				conta = getContaFromRS(rs);
+				livro = getLivroFromRS(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,7 +83,7 @@ public class ContaDao implements Dao<Livro> {
 			close(conn, stmt, rs);
 		}
 		
-		return conta;
+		return livro;
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class ContaDao implements Dao<Livro> {
 		Statement stmt = null;
 		ResultSet rs = null;
 		
-		List<Livro> conta = new ArrayList<>();
+		List<Livro> livros = new ArrayList<>();
 		
 		try {
 			stmt = conn.createStatement();
@@ -100,7 +100,7 @@ public class ContaDao implements Dao<Livro> {
 			rs = stmt.executeQuery(GET_ALL);
 			
 			while (rs.next()) {
-				conta.add(getContaFromRS(rs));
+				livros.add(getLivroFromRS(rs));
 			}			
 			
 		} catch (SQLException e) {
@@ -109,27 +109,27 @@ public class ContaDao implements Dao<Livro> {
 			close(conn, stmt, rs);
 		}
 		
-		return conta;
+		return livros;
 	}
 
 	@Override
-	public void insert(Livro conta) {
+	public void insert(Livro livro) {
 		Connection conn = DbConnection.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(1, conta.getAgencia());
-			stmt.setInt(2, conta.getCliente().getId());
-			stmt.setInt(3, conta.getNumero());
-			stmt.setDouble(4, conta.getSaldo());
+			stmt.setString(1, livro.getTitulo());
+			stmt.setInt(2, livro.getAnoPublicado());
+			stmt.setString(3, livro.getEditora());
+			stmt.setInt(4, livro.getAutor().getId());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			
 			if (rs.next()) {
-				conta.setId(rs.getInt(1));
+				livro.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,20 +157,22 @@ public class ContaDao implements Dao<Livro> {
 			close(conn, stmt, null);
 		}
 	}
+	
+	//	private static final String UPDATE = "UPDATE livro SET titulo = ?, anoPublicado = ?, editora = ?, "
+	//+ "autor_id = ? WHERE id = ?";
 
 	@Override
-	public void update(Livro conta) {
+	public void update(Livro livro) {
 		Connection conn = DbConnection.getConnection();
 		
 		PreparedStatement stmt = null;
 		
 		try {
 			stmt = conn.prepareStatement(UPDATE);
-			stmt.setInt(1, conta.getAgencia());
-			stmt.setInt(2, conta.getCliente().getId());
-			stmt.setInt(3, conta.getNumero());
-			stmt.setDouble(4, conta.getSaldo());
-			stmt.setInt(5, conta.getId());
+			stmt.setString(1, livro.getTitulo());
+			stmt.setInt(2, livro.getAnoPublicado());
+			stmt.setString(3, livro.getEditora());
+			stmt.setDouble(4, livro.getAutor().getId());
 			
 			stmt.executeUpdate();
 			

@@ -79,7 +79,7 @@ public class InterfaceTexto {
 			if (estadoAtual == Estado.PRINCIPAL) {
 				estadoAtual = opcao == OP_LIVRO ? Estado.LIVRO : Estado.AUTOR;
 			} else {
-				subMenu = estadoAtual == Estado.LIVRO ? new InterfaceClienteTexto() : new InterfaceContaTexto();
+				subMenu = estadoAtual == Estado.LIVRO ? new InterfaceAutorTexto() : new InterfaceLivroTexto();
 
 				switch (opcao) {
 				case OP_NOVO:

@@ -8,7 +8,7 @@ public class Autor {
 	public Autor() {
 	}
 
-	public Autor(int id, String nome, String endereco, long cpf, long rg, long telefone) {
+	public Autor(int id, String nome, long cpf) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
