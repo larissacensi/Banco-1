@@ -67,8 +67,8 @@ public class Livro implements Imprimivel {
 
 	@Override
 	public String imprimeEmLista() {
-		return String.format("%d\t%d\t%d\t%.2f\t%d\t%s", getId(), getTitulo(), getAnoPublicado(), getEditora(),
-				getAutor().getNome());
+		return "nTitulo: " + getTitulo() + "\nAnopublicado: " + getAnoPublicado() + "\nEditora: " + getEditora()
+		+ "\nAutor: " + getAutor();
 	}
 
 	@Override

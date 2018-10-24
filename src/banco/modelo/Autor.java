@@ -46,7 +46,7 @@ public class Autor implements Imprimivel {
 
 	@Override
 	public String imprimeEmLista() {
-		return "nome: " + getNome() + "\nCPF: "
+		return "nome: " + getNome() + "\nCPF: " 
 				+ String.valueOf(getCpf()).replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
 	}
 
