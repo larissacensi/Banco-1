@@ -40,19 +40,19 @@ public class Autor implements Imprimivel {
 
 	@Override
 	public String toString() {
-		return "nome: " + getNome() + "\nCPF: "
+		return "id: " + getId() + "\tnome: " + getNome() + "\tCPF: "
 				+ String.valueOf(getCpf()).replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
 	}
 
 	@Override
 	public String imprimeEmLista() {
-		return "nome: " + getNome() + "\nCPF: " 
+		return "id: " + getId() + "\tnome: " + getNome() + "\tCPF: "
 				+ String.valueOf(getCpf()).replaceFirst("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
 	}
 
 	@Override
 	public String[] getColunas() {
-		String[] colunas = {"Id", "Nome", "CPF"};
+		String[] colunas = { "Id", "Nome", "CPF" };
 		return colunas;
 	}
 

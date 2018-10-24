@@ -61,14 +61,14 @@ public class Livro implements Imprimivel {
 
 	@Override
 	public String toString() {
-		return "nTitulo: " + getTitulo() + "\nAnopublicado: " + getAnoPublicado() + "\nEditora: " + getEditora()
-				+ "\nAutor: " + getAutor();
+		return "id: " + getId() + "\tTitulo: " + getTitulo() + "\tAnopublicado: " + getAnoPublicado() + "\tEditora: "
+				+ getEditora() + "\tAutor: " + getAutor();
 	}
 
 	@Override
 	public String imprimeEmLista() {
-		return "nTitulo: " + getTitulo() + "\nAnopublicado: " + getAnoPublicado() + "\nEditora: " + getEditora()
-		+ "\nAutor: " + getAutor();
+		return "id: " + getId() + "\tTitulo: " + getTitulo() + "\tAnopublicado: " + getAnoPublicado() + "\tEditora: "
+				+ getEditora() + "\tAutor: " + getAutor();
 	}
 
 	@Override

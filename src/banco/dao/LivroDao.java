@@ -30,13 +30,9 @@ public class LivroDao implements Dao<Livro> {
 	}
 
 	private void createTable() throws SQLException {
-		final String sqlCreate = "CREATE TABLE IF NOT EXISTS livro" + "  "
-				+ "(id           INTEGER,"
-				+ "   titulo      VARCHAR(50)," 
-				+ "   anoPublicado   INTEGER," 
-				+ "   editora	   STRING,"
-				+ "   autor_id        INTEGER," 
-				+ "   FOREIGN KEY (autor_id) REFERENCES autor(id),"
+		final String sqlCreate = "CREATE TABLE IF NOT EXISTS livro" + "(id           INTEGER,"
+				+ "   titulo      VARCHAR(50)," + "   anoPublicado   INTEGER," + "   editora	   STRING,"
+				+ "   autor_id        INTEGER," + "   FOREIGN KEY (autor_id) REFERENCES autor(id),"
 				+ "   PRIMARY KEY (id))";
 
 		Connection conn = DbConnection.getConnection();
@@ -154,7 +150,6 @@ public class LivroDao implements Dao<Livro> {
 		}
 	}
 
-
 	@Override
 	public void update(Livro livro) {
 		Connection conn = DbConnection.getConnection();
@@ -167,6 +162,7 @@ public class LivroDao implements Dao<Livro> {
 			stmt.setInt(2, livro.getAnoPublicado());
 			stmt.setString(3, livro.getEditora());
 			stmt.setDouble(4, livro.getAutor().getId());
+			stmt.setInt(5, livro.getId());
 
 			stmt.executeUpdate();
 

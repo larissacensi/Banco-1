@@ -32,22 +32,21 @@ public class InterfaceLivroTexto extends InterfaceModeloTexto {
 	private Livro obtemDadosLivro(Livro livro) {
 		System.out.print("Insira o título do livro: ");
 		String titulo = entrada.nextLine();
-		
+
 		System.out.print("Insira o ano de publicação: ");
 		int anoPublicacao = entrada.nextInt();
 		entrada.nextLine();
-		
+
 		System.out.print("Insira a editora: ");
 		String editora = entrada.nextLine();
-		
+
 		System.out.print("Insira o ID do autor: ");
 		int idAutor = entrada.nextInt();
-		
+
 		Autor autor = autorDao.getByKey(idAutor);
-		
+
 		return new Livro(0, titulo, anoPublicacao, editora, autor);
 	}
-	
 
 	@Override
 	public void listarTodos() {
