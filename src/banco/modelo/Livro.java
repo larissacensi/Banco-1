@@ -61,7 +61,7 @@ public class Livro implements Imprimivel {
 
 	@Override
 	public String toString() {
-		return "nTitulo: " + getTitulo() + "\nAno da publicação: " + getAnoPublicado() + "\nEditora: " + getEditora()
+		return "nTitulo: " + getTitulo() + "\nAnopublicado: " + getAnoPublicado() + "\nEditora: " + getEditora()
 				+ "\nAutor: " + getAutor();
 	}
 
@@ -73,7 +73,7 @@ public class Livro implements Imprimivel {
 
 	@Override
 	public String[] getColunas() {
-		String[] colunas = { "id", "Titulo", "Ano publicado ", "Editora", "Autor" };
+		String[] colunas = { "id", "Titulo", "Aanopublicado ", "Editora", "Autor" };
 		return colunas;
 	}
 

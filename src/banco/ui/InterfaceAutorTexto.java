@@ -1,10 +1,9 @@
 package banco.ui;
 
 import java.util.List;
+
 import banco.dao.AutorDao;
 import banco.modelo.Autor;
-import banco.modelo.Imprimivel;
-
 
 public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	
@@ -15,16 +14,14 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 		dao = new AutorDao();
 	}
 	
-	private Autor obtemDadosAutor(Autor autor) {
+	private Autor obtemDadosCliente(Autor autor) {
 		
 		System.out.print("Insira o nome do autor: ");
 		String nome = entrada.nextLine();
 		
-		
-		System.out.println("Insira o CPF do cliente (somente nÃºmeros): ");
+		System.out.println("Insira o CPF do autor (somente números): ");
 		long cpf = entrada.nextLong();
 		entrada.nextLine();
-		
 		
 		Autor novoAutor = new Autor(0, nome, cpf);
 		
@@ -33,10 +30,10 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	
 	@Override
 	public void adicionar() {
-		System.out.println("Adicionar Autor");
+		System.out.println("Adicionar autor");
 		System.out.println();
 		
-		Autor novoAutor = obtemDadosAutor(null);	
+		Autor novoAutor = obtemDadosCliente(null);	
 		dao.insert(novoAutor);
 		
 	}
@@ -45,13 +42,13 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	public void listarTodos() {
 		List<Autor> autores = dao.getAll();
 		
-		System.out.println("Lista de Autores");
+		System.out.println("Lista de autores");
 		System.out.println();
 		
 		System.out.println("id\tNome\tCPF");
 		
 		for (Autor autor : autores) {
-			imprimeItem((Imprimivel) autor);
+			imprimeItem(autor);
 		}
 		
 	}
@@ -69,7 +66,7 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 		
 		Autor autorAModifcar = dao.getByKey(id);
 		
-		Autor novoAutor = obtemDadosAutor(autorAModifcar);
+		Autor novoAutor = obtemDadosCliente(autorAModifcar);
 		
 		novoAutor.setId(id);
 		

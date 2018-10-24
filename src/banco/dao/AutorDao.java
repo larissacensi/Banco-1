@@ -1,4 +1,5 @@
 package banco.dao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,14 +10,13 @@ import java.util.List;
 
 import banco.modelo.Autor;
 
-
 public class AutorDao implements Dao<Autor> {
 	
 	private static final String GET_BY_ID = "SELECT * FROM autor WHERE id = ?";
 	private static final String GET_ALL = "SELECT * FROM autor";
 	private static final String INSERT = "INSERT INTO autor (nome, cpf) "
 			+ "VALUES (?, ?)";
-	private static final String UPDATE = "UPDATE autor SET nome = ?, cpf = ?  WHERE id = ? ";
+	private static final String UPDATE = "UPDATE autor SET nome = ?, cpf = ? WHERE id = ?";
 	private static final String DELETE = "DELETE FROM autor WHERE id = ?";
 	
 	public AutorDao() {
@@ -29,7 +29,7 @@ public class AutorDao implements Dao<Autor> {
 	}
 	
 	private void createTable() throws SQLException {
-	    String sqlCreate = "CREATE TABLE IF NOT EXISTS cliente"
+	    String sqlCreate = "CREATE TABLE IF NOT EXISTS autor"
 	            + "  (id           INTEGER,"
 	            + "   nome            VARCHAR(50),"
 	            + "   cpf			  BIGINT,"
@@ -37,13 +37,11 @@ public class AutorDao implements Dao<Autor> {
 	    
 	    Connection conn = DbConnection.getConnection();
 
-
 	    Statement stmt = conn.createStatement();
 	    stmt.execute(sqlCreate);
 	    
 	    close(conn, stmt, null);
 	}
-	
 	
 	private Autor getAutorFromRS(ResultSet rs) throws SQLException
     {
@@ -52,6 +50,7 @@ public class AutorDao implements Dao<Autor> {
 		autor.setId( rs.getInt("id") );
 		autor.setNome( rs.getString("nome") );
 		autor.setCpf( rs.getLong("cpf") );
+	
 		return autor;
     }
 	
@@ -72,7 +71,7 @@ public class AutorDao implements Dao<Autor> {
 				autor = getAutorFromRS(rs);
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao obter cliente pela chave.", e);
+			throw new RuntimeException("Erro ao obter autor pela chave.", e);
 		} finally {
 			close(conn, stmt, rs);
 		}
@@ -116,7 +115,6 @@ public class AutorDao implements Dao<Autor> {
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, autor.getNome());
 			stmt.setLong(2, autor.getCpf());
-
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -164,7 +162,7 @@ public class AutorDao implements Dao<Autor> {
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao atualizar Autor.", e);
+			throw new RuntimeException("Erro ao atualizar autor.", e);
 		} finally {
 			close(conn, stmt, null);
 		}
