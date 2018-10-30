@@ -5,9 +5,8 @@ import java.util.Scanner;
 public class InterfaceTexto {
 	private Scanner entrada;
 	private Estado estadoAtual;
-
-	private static final int OP_LIVRO = 1;
-	private static final int OP_AUTOR = 2;
+	private static final int OP_AUTOR = 1;
+	private static final int OP_LIVRO = 2;
 	private static final int OP_SAIR = 0;
 	private static final int OP_NOVO = 1;
 	private static final int OP_EDITAR = 2;
@@ -51,8 +50,8 @@ public class InterfaceTexto {
 	}
 
 	private void imprimeMenuPrincipal() {
-		System.out.println("1 - Administração de Livros");
-		System.out.println("2 - Administração de Autores");
+		System.out.println("1 - Administração de Autores");
+		System.out.println("2 - Administração de Livros");
 	}
 
 	private void imprimeMenuLivros() {
@@ -77,9 +76,9 @@ public class InterfaceTexto {
 
 		while (opcao != OP_SAIR) {
 			if (estadoAtual == Estado.PRINCIPAL) {
-				estadoAtual = opcao == OP_LIVRO ? Estado.LIVRO : Estado.AUTOR;
+				estadoAtual = opcao == OP_AUTOR ? Estado.AUTOR : Estado.LIVRO;
 			} else {
-				subMenu = estadoAtual == Estado.LIVRO ? new InterfaceAutorTexto() : new InterfaceLivroTexto();
+				subMenu = estadoAtual == Estado.AUTOR ? new InterfaceAutorTexto() : new InterfaceLivroTexto();
 
 				switch (opcao) {
 				case OP_NOVO:
